@@ -1,61 +1,66 @@
-const  movieService=require('../service/movie.service')
+const movieService = require("../service/movie.service");
 
-class movieController{
-    async getAll(req,res){
-    try{const movie = await movieService.getAllmovie();
-    res.json(movie)}
-    catch(error){
-    res.status(500).json({
-    error: error.message});
-    }}
-
-    async getmovieByid(req,res){
-    try{const movie = await movieService.getmovieByid(req.params.id);
-    res.json(movie)}
-    catch(error){
-    res.status(500).json({
-    error: error.message});
-    }}
-
-    async create(req,res){
-    try{const user = await movieService.create(req.body);
-    res.json(user);}
-    catch(error){
-    res.status(500).json({
-    error:error.message
-    });}} 
-    
-    async deleteByid(req, res) {
-    const { id } = req.params;
+class movieController {
+  async getAll(req, res) {
     try {
-    const movie = await movieService.deleteByid(id);
-    res.json({
-    message: "Filme deletado",
-    movie
-    });
+      const movie = await movieService.getAllmovie();
+      res.json({ message: "Filmes cadastrados", movie });
     } catch (error) {
-    res.status(500).json({
-    error: error.message
-    });}}
+      res.status(500).json({
+        error: error.message,
+      });
+    }
+  }
 
-async update(req, res) {
-  const { id } = req.params;
-  const data = req.body;
+  async getmovieByid(req, res) {
+    try {
+      const movie = await movieService.getmovieByid(req.params);
+      res.json({message:'O filme com as reviews e usuários',movie});
+    } catch (error) {
+      res.status(500).json({
+        error: error.message,
+      });
+    }
+  }
 
-  try {
-    const movie = await movieService.update(id, data);
+  async create(req, res) {
+    try {
+      const movie = await movieService.create(req.body);
+      res.json({ message: "Filme cadastrado com sucesso", movie });
+    } catch (error) {
+      res.status(500).json({
+        error: error.message,
+      });
+    }
+  }
 
-    res.json({
-      message: "Filme Atualizado",
-      movie
-    });
+  async deleteByid(req, res) {
+    try {
+      const movie = await movieService.deleteByid(req.params);
+      res.json({
+        message: "Filme deletado com sucesso",
+        movie,
+      });
+    } catch (error) {
+      res.status(500).json({
+        error: error.message,
+      });
+    }
+  }
 
-  } catch (error) {
-    res.status(500).json({
-      error: error.message
-    });
+  async update(req, res) {
+    try {
+      const movie = await movieService.update(req.params, req.body);
+      res.json({ message: "Filme Atualizado com sucesso", movie });
+    } catch (error) {
+      res.status(500).json({
+        error: error.message,
+      });
+    }
+  }
+  async GetallMovieReviews(req, res) {
+    const movie = await movieService.getAllmovieReviews();
+    return res.json({message:'Todos os filmes e suas respectivas reviews',movie});
   }
 }
-
-}
-module.exports = new movieController()
+module.exports = new movieController();

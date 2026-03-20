@@ -1,19 +1,19 @@
-const {Router} = require('express')
+const { Router } = require("express");
 
 const movieController = require("../controllers/movie.controller.js");
 
-const routes = Router()
+const routes = Router();
 
-//Funcionou
 routes.get("/", movieController.getAll);
-//Funcionou
-routes.get("/:id/reviews", movieController.getmovieByid);
-//Funcionou
+
+routes.get("/:id/reviews/users", movieController.getmovieByid);
+
 routes.delete("/:id", movieController.deleteByid);
-//Funcionou
-routes.post("/", movieController.create)
 
-routes.put("/:id",movieController.update)
+routes.post("/", movieController.create);
 
+routes.put("/:id", movieController.update);
 
-module.exports = routes
+routes.get("/reviews/users", movieController.GetallMovieReviews);
+
+module.exports = routes;
